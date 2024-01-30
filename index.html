@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body {
+            position: relative;
+            background: url('wallpaper.jpg') no-repeat center center fixed;
+            background-size: contain;
+            width: 100%;
+            color: #ffffff; /* Set text color to white */
+            text-align: center;
+        }
+
+        .container {
+            position: relative;
+            width: 80%; /* Adjust the width for larger screens */
+            max-width: 300px; /* Set a maximum width if necessary */
+            margin-bottom: 50px; /* Add some space between text and buttons */
+        }
+
+        .overlay-image {
+            width: 100%;
+            height: auto;
+            max-width: 100%; /* Ensure the image doesn't exceed the container width */
+            max-height: 40%; /* Set a maximum height if necessary */
+            display: block;
+            margin: 0 auto; /* Center the image horizontally within the container */
+            border-radius: 10px; /* Optional: Add rounded corners to the image */
+        }
+
+        p {
+            font-size: 24px;
+            max-width: 80%;
+            background: rgba(0, 0, 0, 0.5); /* Add a semi-transparent background to make text more readable */
+            padding: 15px;
+            border-radius: 10px;
+            position: relative;
+            z-index: 2; /* Ensure text appears above the image */
+            margin-top: -20px; /* Adjust the margin to position the text closer to the image */
+        }
+
+        .button-container {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            position: absolute;
+        }
+
+        #yes-button {
+            background-color: #4CAF50; /* Green */
+            color: white;
+            left: 0; /* Set the initial position of the Yes button */
+        }
+
+        #no-button {
+            background-color: #f44336; /* Red */
+            color: white;
+            right: 0; /* Set the initial position of the No button */
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Media query for smaller screens */
+        @media screen and (max-width: 600px) {
+            .container {
+                width: 90%;
+            }
+        }
+    </style>
+    <title>Valentine Wallpaper</title>
+</head>
+<body>
+    <div class="container" id="valentine-container">
+        <div class="overlay-image">
+            <img src="trade.jpg" alt="Trade Image" id="valentine-image">
+            <img src="cat.gif" alt="Cat Image" id="cat-image" class="hidden">
+        </div>
+        <p id="valentine-text">Evelīn, will you be my valentine? :3</p>
+        <p id="new-text" class="hidden">See you on the 14th bbgurl &lt;3</p>
+        <div class="button-container" id="button-container">
+            <button id="yes-button" onclick="handleYesClick()">Yes</button>
+            <button id="no-button" onclick="handleNoClick()">No</button>
+        </div>
+    </div>
+
+    <script>
+        function handleYesClick() {
+            document.getElementById('valentine-image').classList.add('hidden');
+            document.getElementById('valentine-text').classList.add('hidden');
+            document.getElementById('new-text').classList.remove('hidden');
+            document.getElementById('cat-image').classList.remove('hidden');
+            document.getElementById('button-container').classList.add('hidden');
+        }
+
+        function handleNoClick() {
+            var noButton = document.getElementById('no-button');
+            var yesButton = document.getElementById('yes-button');
+
+            // Get the initial position of the No button
+            var initialPosition = {
+                top: noButton.offsetTop,
+                left: noButton.offsetLeft
+            };
+
+            // Randomize the position within a small set distance from the initial position
+            var newPositionTop = getRandomPosition(initialPosition.top - 20, initialPosition.top + 20);
+            var newPositionLeft = getRandomPosition(initialPosition.left - 20, initialPosition.left + 20);
+
+            // Ensure the No button doesn't overlap with the Yes button
+            var minDistance = 50; // Minimum distance between buttons
+
+            if (Math.abs(newPositionTop - yesButton.offsetTop) < minDistance) {
+                newPositionTop += minDistance;
+            }
+
+            if (Math.abs(newPositionLeft - yesButton.offsetLeft) < minDistance) {
+                newPositionLeft += minDistance;
+            }
+
+            noButton.style.top = newPositionTop + 'px';
+            noButton.style.left = newPositionLeft + 'px';
+        }
+
+        function getRandomPosition(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+    </script>
+</body>
+</html>
